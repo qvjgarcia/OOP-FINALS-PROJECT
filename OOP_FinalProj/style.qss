@@ -1,0 +1,81 @@
+/* ---------- Whole Window ---------- */
+QWidget {
+    background-color: #f1f5f9;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+/* ---------- Labels ---------- */
+#title { 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #005221; 
+}
+
+#subtitle { 
+    font-size: 12px; 
+    color: #64748b; 
+}
+
+#capacity_label { 
+    font-size: 18px; 
+    font-weight: bold; 
+    color: #005221; 
+}
+
+#status { 
+    font-weight: bold; 
+}
+
+/* ---------- Text Boxes ---------- */
+QLineEdit {
+    background-color: white;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+QLineEdit:hover { 
+    border-color: #93c5fd; 
+}
+
+QLineEdit:focus { 
+    border-color: #2563eb; 
+}
+
+/* ---------- Buttons ---------- */
+QPushButton {
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+    background-color: #e2e8f0;
+}
+
+#queue_btn { 
+    background-color: #0b6f30; 
+    color: #ffffff; 
+}
+
+#queue_btn:hover { 
+    background-color: #3ea950; 
+}
+
+#queue_btn:pressed { 
+    background-color: #0e5b0d; 
+}
+
+/* ---------- Error and Success States (Keep These Last) ---------- */
+QLineEdit[error="true"] {
+    border-color: #dc2626;
+    background-color: #fef2f2;
+}
+
+#status[state="error"] { 
+    color: #dc2626; 
+}
+
+#status[state="success"] { 
+    color: #16a34a; 
+}
