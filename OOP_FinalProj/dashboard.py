@@ -25,7 +25,7 @@ class VenueManager(QObject):
         return True
     
     def remove_player(self, name: str):
-        # ----- Option to Remove the Player -----
+        # ----- Updating the Court When a Player Gets Removed -----
         if name in self.players:
             self.players.remove(name)
             self.update_courts()
