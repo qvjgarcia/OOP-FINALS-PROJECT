@@ -14,6 +14,7 @@ class PicklePlaySys(QWidget):
         self.setFixedSize(1050, 800)
         self.setWindowOpacity(0.0)
         self.manager_system = VenueManager()
+        self.manager_system.changed.connect(self.update_court_status)
         self.fade = QPropertyAnimation(self, b"windowOpacity")
         self.fade.setDuration(650)
         self.fade.setStartValue(0.0)
@@ -59,6 +60,7 @@ class PicklePlaySys(QWidget):
         header = self.court_section.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.court_section.setFixedHeight(220)
+        self.court_section.cellDoubleClicked.connect(self.inspect_and_remove)
         
         # ----- Players List -----
         self.players_list = QListWidget()
@@ -150,7 +152,27 @@ class PicklePlaySys(QWidget):
             self.players_list.clear()
             for player in self.manager_system.players:
                 self.players_list.addItem(player)
+        
+    def inspect_and_remove(self, row, column):
+        # ----- Inspect Option on Players to Remove or No Functionality -----
+        if row == 0:
+            return
+        
+        item_remove = self.court_section.item(row, column)
+        if item_remove and item_remove.text() != "Empty":
+            player_name = item_remove.text()
             
+            confirm = QMessageBox.question(
+                self, "Remove Player", 
+                f"Remove {player_name} from Queue/Court?", 
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+            )
+            
+            if confirm == QMessageBox.StandardButton.Yes:
+                self.manager_system.remove_player(player_name)
+                QMessageBox.information(self, "Removed", f"{player_name} is Removed")
+            
+        
 app = QApplication(sys.argv)
 qss_file = Path(__file__).with_name("style.qss")
 app.setStyleSheet(qss_file.read_text())
