@@ -101,7 +101,7 @@ class PicklePlaySys(QWidget):
             
         if not name:
             QMessageBox.warning(
-                self, "Error", "Invalid, Please Put a Valid Username"
+                self, "Error", "Please Type Your Name First."
             )
             return
         
@@ -113,7 +113,7 @@ class PicklePlaySys(QWidget):
             return
         
         QMessageBox.information(
-            self, "Success!", "You Have Successfully Queued"
+            self, "Success", "You Have Successfully Queued!"
         )
         
         self.name_input.clear()
