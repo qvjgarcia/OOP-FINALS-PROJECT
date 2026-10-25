@@ -68,7 +68,6 @@ class PicklePlaySys(QWidget):
         
         # ----- Layouts -----
         button = QHBoxLayout()
-        button.addWidget(self.queue_btn)
         button.addWidget(self.queue_btn, alignment=Qt.AlignmentFlag.AlignLeft)
         layout = QVBoxLayout()
         layout.addLayout(self.title_icon_container)
@@ -94,6 +93,7 @@ class PicklePlaySys(QWidget):
         self.capacity_label.setObjectName("capacity_label")
         self.title.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.subtitle.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.update_court_status()
         
     def queue_player(self):
         # ----- Queue Functionalities -----
@@ -112,13 +112,10 @@ class PicklePlaySys(QWidget):
             )
             return
         
-        self.players_list.addItem(name)
-        
         QMessageBox.information(
             self, "Success!", "You Have Successfully Queued"
         )
         
-        self.update_court_status()    
         self.name_input.clear()
         self.name_input.setFocus()
         
@@ -172,10 +169,9 @@ class PicklePlaySys(QWidget):
                 self.manager_system.remove_player(player_name)
                 QMessageBox.information(self, "Removed", f"{player_name} is Removed")
             
-        
 app = QApplication(sys.argv)
 qss_file = Path(__file__).with_name("style.qss")
 app.setStyleSheet(qss_file.read_text())
 window = PicklePlaySys()
 window.show()
-app.exec() 
+app.exec()
