@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 from PyQt6.QtCore import QObject, pyqtSignal
+import json
+import os
 
 # ----- Venue and Courts Functionalities -----
 @dataclass
@@ -10,11 +12,42 @@ class Courts:
 class VenueManager(QObject):
     changed = pyqtSignal()
     
-    def __init__(self):
+    def __init__(self, filename="pickleplay_data.json"):
         super().__init__()
+        self.filename = filename
         self.venue_capacity = 36
         self.players = []
         self.courts = [Courts(i) for (i) in range (1, 4)]
+        self.load_from_json()
+        
+    def save_to_json(self):
+        # ----- Saves the Data to JSON File -----
+        data = {
+            "venue_capacity": self.venue_capacity,
+            "players": self.players,
+            "courts": [{"numbers": c.numbers, "players": c.players} for c in self.courts]
+        }
+        try:
+            with open(self.filename, "w") as f:
+                json.dump(data, f, indent=4)
+        except Exception as e:
+            print(f"Error saving data: {e}")
+            
+    def load_from_json(self):
+        # ----- Loads from JSON -----
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, "r") as f:
+                    data = json.load(f)
+                    self.venue_capacity = data.get("venue_capacity", 36)
+                    self.players = data.get("players", [])
+                    courts_data = data.get("courts", [])
+                    for i, c_data in enumerate(courts_data):
+                        if i < len(self.courts):
+                            self.courts[i].numbers = c_data.get("numbers", i + 1)
+                            self.courts[i].players = c_data.get("players", [])
+            except Exception as e:
+                print(f"Error loading data: {e}")
         
     def add_player(self, name: str):
         # ----- Added Players Functionalities -----
@@ -29,6 +62,7 @@ class VenueManager(QObject):
             return False, "Venue is Already Full."
             
         self.players.append(name)
+        self.save_to_json()
         self.changed.emit()
         return True, "Player is Added"
     
@@ -36,12 +70,14 @@ class VenueManager(QObject):
         # ----- Remove Player Functionalities -----
         if name in self.players:
             self.players.remove(name)
+            self.save_to_json()
             self.changed.emit()
             return
             
         for court in self.courts:
             if name in court.players:
                 court.players.remove(name)
+                self.save_to_json()
                 self.changed.emit()
                 return
             
@@ -66,6 +102,7 @@ class VenueManager(QObject):
             player = self.players.pop(0)
             self.courts[start_idx].players.append(player)
             
+        self.save_to_json()
         self.changed.emit()
         return True, "Game Has Started."
     
@@ -82,6 +119,8 @@ class VenueManager(QObject):
             self.players.append(player)
             
         self.courts[finish_idx].players.clear()
+        
+        self.save_to_json()
         self.changed.emit()
         return True, "Players Returned to Queue"
             
