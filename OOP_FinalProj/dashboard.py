@@ -4,9 +4,12 @@ import os
 
 # ----- Venue and Courts Functionalities -----
 class Courts:
-    def __init__(self, numbers: int, players: list[str] = None):
+    def __init__(self, numbers, players=None):
         self.numbers = numbers
-        self.players = players if players is not None else []
+        if players == None:
+            self.players = []
+        else:
+            self.players = players
     
 class VenueManager(QObject):
     changed = pyqtSignal()
