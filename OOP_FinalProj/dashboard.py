@@ -51,7 +51,7 @@ class VenueManager(QObject):
             except Exception as e:
                 print(f"Error loading data: {e}")
         
-    def add_player(self, name: str):
+    def add_player(self, name):
         # ----- Added Players Functionalities -----
         if name in self.players:
             return False, "Player Already Exists."
@@ -68,7 +68,7 @@ class VenueManager(QObject):
         self.changed.emit()
         return True, "Player is Added"
     
-    def remove_player(self, name: str):
+    def remove_player(self, name):
         # ----- Remove Player Functionalities -----
         if name in self.players:
             self.players.remove(name)
