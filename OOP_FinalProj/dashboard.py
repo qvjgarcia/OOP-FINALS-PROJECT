@@ -17,38 +17,73 @@ class VenueManager(QObject):
         self.courts = [Courts(i) for (i) in range (1, 4)]
         
     def add_player(self, name: str):
-        # ----- The Queued Players Added to the Courts -----
-        if len(self.players) >= self.venue_capacity:
-            return False
+        # ----- Added Players Functionalities -----
+        if name in self.players:
+            return False, "Player Already Exists."
+            
+        for court in self.courts:
+            if name in court.players:
+                return False, "Player Already Exists."
+                
+        if len(self.players) + sum(len(c.players) for c in self.courts) >= self.venue_capacity:
+            return False, "Venue is Already Full."
+            
         self.players.append(name)
-        self.update_courts()
-        return True
+        self.changed.emit()
+        return True, "Player is Added"
     
     def remove_player(self, name: str):
-        # ----- Updating the Court When a Player Gets Removed -----
+        # ----- Remove Player Functionalities -----
         if name in self.players:
             self.players.remove(name)
-            self.update_courts()
+            self.changed.emit()
+            return
             
-    # ----- Start and Finish Games -----
-    def start_game(self, court_num):
-        idx = court_num - 1
-        if len(self.courts[idx].players) > 0:
-            return False, "Court is occupied"
-        if len(self.waiting_queue) < 4:
-            return False, "Need 4 players to start"
+        for court in self.courts:
+            if name in court.players:
+                court.players.remove(name)
+                self.changed.emit()
+                return
+            
+    def starting_game(self, court_num):
+        # ----- Popping Functionality (The First 4 Players from the Queue and Send them to the Court) -----
+        start_idx = court_num - 1
+        if start_idx < 0 or start_idx >= len(self.courts):
+            return False, "Invalid Court Number."
+            
+        if len(self.courts[start_idx].players) >= 4:
+            return False, "Game Has Already Started."
+        
+        if len(self.players) < 4:
+            return False, "Need at Least 4 Players."
+        
+        if len(self.courts[start_idx].players) > 0:
+            for player in self.courts[start_idx].players:
+                self.players.append(player)
+            self.courts[start_idx].players.clear()
+            
         for _ in range(4):
-            player = self.waiting_queue.pop(0)
-            self.courts[idx].players.append(player)
+            player = self.players.pop(0)
+            self.courts[start_idx].players.append(player)
+            
         self.changed.emit()
-        return True, "Game started"
+        return True, "Game Has Started."
     
-    def finish_game(self, court_num):
-        idx = court_num - 1
-        if len(self.courts[idx].players) == 0:
-            return False, "Court is already empty"
-        for player in self.courts[idx].players:
-            self.waiting_queue.append(player)
-        self.courts[idx].players.clear()
+    def finishing_game(self, court_num):
+        # ----- Return Function (Returns the Players from the Court Back to the End of the Queued List) -----
+        finish_idx = court_num - 1
+        if finish_idx < 0 or finish_idx >= len(self.courts):
+            return False, "Invalid Court Number."
+            
+        if len(self.courts[finish_idx].players) == 0:
+            return False, "Court is Already Empty"
+        
+        for player in self.courts[finish_idx].players:
+            self.players.append(player)
+            
+        self.courts[finish_idx].players.clear()
         self.changed.emit()
-        return True, "Players returned to queue"
+        return True, "Players Returned to Queue"
+            
+    def update_courts(self):
+        self.changed.emit()
