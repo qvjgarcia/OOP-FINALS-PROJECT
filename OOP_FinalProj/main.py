@@ -129,15 +129,15 @@ class PicklePlaySys(QWidget):
         
         # ----- Signals and Slots -----
         self.queue_btn.clicked.connect(self.queue_player)
+        self.start_btn_1.clicked.connect(self.start_game_1)
+        self.finish_btn_1.clicked.connect(self.finish_game_1)
+        self.start_btn_2.clicked.connect(self.start_game_2)
+        self.finish_btn_2.clicked.connect(self.finish_game_2)
+        self.start_btn_3.clicked.connect(self.start_game_3)
+        self.finish_btn_3.clicked.connect(self.finish_game_3)
         self.instructions_btn.clicked.connect(self.show_instructions)
         self.settings_btn.clicked.connect(self.show_settings)
         self.name_input.returnPressed.connect(self.queue_player)
-        self.start_btn_1.clicked.connect(lambda: self.start_game(1))
-        self.finish_btn_1.clicked.connect(lambda: self.finish_game(1))
-        self.start_btn_2.clicked.connect(lambda: self.start_game(2))
-        self.finish_btn_2.clicked.connect(lambda: self.finish_game(2))
-        self.start_btn_3.clicked.connect(lambda: self.start_game(3))
-        self.finish_btn_3.clicked.connect(lambda: self.finish_game(3))
         
         # ----- Styling a Widget -----
         self.title.setObjectName("title")
@@ -193,6 +193,24 @@ class PicklePlaySys(QWidget):
         else:
             QMessageBox.information(self, "Success", message)
         self.update_court_status()
+        
+    def start_game_1(self):
+        self.start_game(1)
+
+    def start_game_2(self):
+        self.start_game(2)
+
+    def start_game_3(self):
+        self.start_game(3)
+
+    def finish_game_1(self):
+        self.finish_game(1)
+
+    def finish_game_2(self):
+        self.finish_game(2)
+
+    def finish_game_3(self):
+        self.finish_game(3)
         
     def update_court_status(self):
         # ----- Court Updates Functionalities -----
