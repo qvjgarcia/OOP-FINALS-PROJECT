@@ -31,6 +31,13 @@ class PicklePlaySys(QWidget):
         self.queue_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self.queue_btn.setFixedSize(150, 50)
         self.name_input.setFixedWidth(500)
+
+        self.start_btn_1 = QPushButton("Start Game")
+        self.start_btn_2 = QPushButton("Start Game")
+        self.start_btn_3 = QPushButton("Start Game")
+        self.finish_btn_1 = QPushButton("Finish Game")
+        self.finish_btn_2 = QPushButton("Finish Game")
+        self.finish_btn_3 = QPushButton("Finish Game")
         
         # ----- Title Icon -----
         self.title_icon_container = QHBoxLayout()
@@ -66,9 +73,16 @@ class PicklePlaySys(QWidget):
         self.players_list.setFixedSize(500, 200)
         
                 # ----- Layouts -----
+        court_btn_layout = QHBoxLayout()
+        court_btn_layout.addWidget(self.start_btn_1)
+        court_btn_layout.addWidget(self.finish_btn_1)
+        court_btn_layout.addWidget(self.start_btn_2)
+        court_btn_layout.addWidget(self.finish_btn_2)
+        court_btn_layout.addWidget(self.start_btn_3)
+        court_btn_layout.addWidget(self.finish_btn_3)
+        
         button = QHBoxLayout()
         button.addWidget(self.queue_btn, alignment=Qt.AlignmentFlag.AlignLeft)
-
         header = QWidget()
         header.setObjectName("topbar")
 
@@ -98,6 +112,14 @@ class PicklePlaySys(QWidget):
         
         # ----- Signals and Slots -----
         self.queue_btn.clicked.connect(self.queue_player)
+        self.queue_btn.clicked.connect(self.queue_player)
+        self.name_input.returnPressed.connect(self.queue_player)
+        self.start_btn_1.clicked.connect(lambda: self.start_game(1))
+        self.start_btn_2.clicked.connect(lambda: self.start_game(2))
+        self.start_btn_3.clicked.connect(lambda: self.start_game(3))
+        self.finish_btn_1.clicked.connect(lambda: self.finish_game(1))
+        self.finish_btn_2.clicked.connect(lambda: self.finish_game(2))
+        self.finish_btn_3.clicked.connect(lambda: self.finish_game(3))
         
         # ----- Styling a Widget -----
         self.title.setObjectName("title")
@@ -131,6 +153,22 @@ class PicklePlaySys(QWidget):
         
         self.name_input.clear()
         self.name_input.setFocus()
+
+    def start_game(self, court_num):
+        success, message = self.manager_system.start_game(court_num)
+        if not success:
+            QMessageBox.warning(self, "Notice", message)
+        else:
+            QMessageBox.information(self, "Success", message)
+        self.update_court_status()
+    
+    def finish_game(self, court_num):
+        success, message = self.manager_system.finish_game(court_num)
+        if not success:
+            QMessageBox.warning(self, "Notice", message)
+        else:
+            QMessageBox.information(self, "Success", message)
+        self.update_court_status()
         
     def update_court_status(self):
         # ----- Court Updates Functionalities -----
@@ -154,14 +192,18 @@ class PicklePlaySys(QWidget):
                 item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.court_section.setItem(row_idx, col_idx, item)
                 
-            current_count = len(self.manager_system.players)
-            self.capacity_label.setText(
-                f"Venue Capacity: {current_count}/{self.manager_system.venue_capacity}"
-            )
-            
-            self.players_list.clear()
-            for player in self.manager_system.players:
-                self.players_list.addItem(player)
+            current_count = len(self.manager_system.all_players)
+        waiting_count = len(self.manager_system.waiting_queue)
+        self.capacity_label.setText(
+            f"Venue Capacity: {current_count}/{self.manager_system.venue_capacity} | Waiting: {waiting_count}"
+        )
+        
+        self.players_list.clear()
+        if not self.manager_system.waiting_queue:
+            self.players_list.addItem("No players in queue")
+        else:
+            for idx, player in enumerate(self.manager_system.waiting_queue, 1):
+                self.players_list.addItem(f"{idx}. {player}")
         
     def inspect_and_remove(self, row, column):
         # ----- Inspect Option on Players to Remove or No Functionality -----
