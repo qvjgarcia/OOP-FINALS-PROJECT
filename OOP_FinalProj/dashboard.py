@@ -30,13 +30,25 @@ class VenueManager(QObject):
             self.players.remove(name)
             self.update_courts()
             
-    def update_courts(self):
-        # ----- Court Counts Update -----
-        for court in self.courts:
-            court.players.clear()
-            
-        for i, player in enumerate(self.players):
-            court_index = i // 4
-            if court_index < len(self.courts):
-                self.courts[court_index].players.append(player)
+    # ----- Start and Finish Games -----
+    def start_game(self, court_num):
+        idx = court_num - 1
+        if len(self.courts[idx].players) > 0:
+            return False, "Court is occupied"
+        if len(self.waiting_queue) < 4:
+            return False, "Need 4 players to start"
+        for _ in range(4):
+            player = self.waiting_queue.pop(0)
+            self.courts[idx].players.append(player)
         self.changed.emit()
+        return True, "Game started"
+    
+    def finish_game(self, court_num):
+        idx = court_num - 1
+        if len(self.courts[idx].players) == 0:
+            return False, "Court is already empty"
+        for player in self.courts[idx].players:
+            self.waiting_queue.append(player)
+        self.courts[idx].players.clear()
+        self.changed.emit()
+        return True, "Players returned to queue"
