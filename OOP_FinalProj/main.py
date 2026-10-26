@@ -3,7 +3,6 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QLabel, QPushButton, QBo
 from PyQt6.QtCore import Qt, QDate, QPropertyAnimation, QEasingCurve, QPoint
 from PyQt6.QtGui import QColor, QPixmap
 from dashboard import VenueManager
-from sidebar import Sidebar
 from pathlib import Path
 import sys, os
 
@@ -66,21 +65,35 @@ class PicklePlaySys(QWidget):
         self.players_list = QListWidget()
         self.players_list.setFixedSize(500, 200)
         
-        # ----- Layouts -----
+                # ----- Layouts -----
         button = QHBoxLayout()
         button.addWidget(self.queue_btn, alignment=Qt.AlignmentFlag.AlignLeft)
+
+        header = QWidget()
+        header.setObjectName("topbar")
+
+        header_layout = QVBoxLayout(header)
+        header_layout.setContentsMargins(12, 12, 12, 12)
+        header_layout.addLayout(self.title_icon_container)
+        header_layout.addSpacing(30)
+        header_layout.addWidget(self.subtitle)
+        header_layout.addWidget(self.name_input)
+        header_layout.addWidget(self.capacity_label)
+
+        content_layout = QVBoxLayout()
+        content_layout.setContentsMargins(12, 12, 12, 12)
+        content_layout.addWidget(QLabel("Court Status & Roster:"))
+        content_layout.addWidget(self.court_section)
+        content_layout.addWidget(QLabel("All Queued Players:"))
+        content_layout.addWidget(self.players_list)
+        content_layout.addStretch()
+        content_layout.addLayout(button)
+
         layout = QVBoxLayout()
-        layout.addLayout(self.title_icon_container)
-        layout.addSpacing(30)
-        layout.addWidget(self.subtitle)
-        layout.addWidget(self.name_input)
-        layout.addWidget(self.capacity_label)
-        layout.addWidget(QLabel("Court Status & Roster:"))
-        layout.addWidget(self.court_section)
-        layout.addWidget(QLabel("All Queued Players:"))
-        layout.addWidget(self.players_list)
-        layout.addStretch()
-        layout.addLayout(button)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        layout.addWidget(header)
+        layout.addLayout(content_layout)
         self.setLayout(layout)
         
         # ----- Signals and Slots -----
