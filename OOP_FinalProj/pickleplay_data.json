@@ -1,0 +1,18 @@
+{
+    "venue_capacity": 36,
+    "players": [],
+    "courts": [
+        {
+            "numbers": 1,
+            "players": []
+        },
+        {
+            "numbers": 2,
+            "players": []
+        },
+        {
+            "numbers": 3,
+            "players": []
+        }
+    ]
+}
