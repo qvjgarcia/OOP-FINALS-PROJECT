@@ -10,7 +10,7 @@ QWidget {
 #title { 
     font-size: 24px; 
     font-weight: bold; 
-    color: #00ff66; 
+    color: #12b525; 
 }
 
 #subtitle { 
@@ -21,7 +21,7 @@ QWidget {
 #capacity_label { 
     font-size: 18px; 
     font-weight: bold; 
-    color: #00ff66; 
+    color: #12b525; 
 }
 
 #status { 
@@ -66,6 +66,84 @@ QPushButton {
     background-color: #0e5b0d; 
 }
 
+#start_btn_1 { 
+    background-color: #0b6f30; 
+    color: #ffffff; 
+}
+
+#start_btn_1:hover { 
+    background-color: #3ea950; 
+}
+
+#start_btn_1:pressed { 
+    background-color: #0e5b0d; 
+}
+
+#finish_btn_1 { 
+    background-color: #0b6f30; 
+    color: #ffffff; 
+}
+
+#finish_btn_1:hover { 
+    background-color: #3ea950; 
+}
+
+#finish_btn_1:pressed { 
+    background-color: #0e5b0d; 
+}
+
+#start_btn_2 { 
+    background-color: #0b6f30; 
+    color: #ffffff; 
+}
+
+#start_btn_2:hover { 
+    background-color: #3ea950; 
+}
+
+#start_btn_2:pressed { 
+    background-color: #0e5b0d; 
+}
+
+#finish_btn_2 { 
+    background-color: #0b6f30; 
+    color: #ffffff; 
+}
+
+#finish_btn_2:hover { 
+    background-color: #3ea950; 
+}
+
+#finish_btn_2:pressed { 
+    background-color: #0e5b0d; 
+}
+
+#start_btn_3 { 
+    background-color: #0b6f30; 
+    color: #ffffff; 
+}
+
+#start_btn_3:hover { 
+    background-color: #3ea950; 
+}
+
+#start_btn_3:pressed { 
+    background-color: #0e5b0d; 
+}
+
+#finish_btn_3 { 
+    background-color: #0b6f30; 
+    color: #ffffff; 
+}
+
+#finish_btn_3:hover { 
+    background-color: #3ea950; 
+}
+
+#finish_btn_3:pressed { 
+    background-color: #0e5b0d; 
+}
+
 /* ---------- Error and Success States ---------- */
 QLineEdit[error="true"] {
     border-color: #dc2626;
@@ -79,10 +157,42 @@ QLineEdit[error="true"] {
 #status[state="success"] { 
     color: #16a34a; 
 }
-#topbar {
-    background-color: #4d5c70;
+
+/* ---------- Instructions ---------- */
+#instructions_title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #000000;
 }
 
-#topbar QLabel {
+#instructions_info {
+    font-size: 14px;
+    background: transparent;
+}
+
+/* ---------- Settings ---------- */
+#settings_title {
+    font-size: 26px;
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+#settings_subhead {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+QCheckBox.settingsCheckbox {
+    font-size: 14px;
+    padding: 5px;
+}
+
+/* ---------- Top Bar Frame ---------- */
+QLabel {
     background-color: transparent;
+}
+
+#top_bar {
+    background-color: #4e555f;
 }
