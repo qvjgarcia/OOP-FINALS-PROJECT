@@ -1,13 +1,12 @@
-from dataclasses import dataclass, field
 from PyQt6.QtCore import QObject, pyqtSignal
 import json
 import os
 
 # ----- Venue and Courts Functionalities -----
-@dataclass
 class Courts:
-    numbers: int
-    players: list[str] = field(default_factory=list)
+    def __init__(self, numbers: int, players: list[str] = None):
+        self.numbers = numbers
+        self.players = players if players is not None else []
     
 class VenueManager(QObject):
     changed = pyqtSignal()
