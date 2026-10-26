@@ -10,18 +10,18 @@ QWidget {
 #title { 
     font-size: 24px; 
     font-weight: bold; 
-    color: #005221; 
+    color: #00ff66; 
 }
 
 #subtitle { 
     font-size: 12px; 
-    color: #64748b; 
+    color: #fcfcfd; 
 }
 
 #capacity_label { 
     font-size: 18px; 
     font-weight: bold; 
-    color: #005221; 
+    color: #00ff66; 
 }
 
 #status { 
@@ -78,4 +78,11 @@ QLineEdit[error="true"] {
 
 #status[state="success"] { 
     color: #16a34a; 
+}
+#topbar {
+    background-color: #4d5c70;
+}
+
+#topbar QLabel {
+    background-color: transparent;
 }
