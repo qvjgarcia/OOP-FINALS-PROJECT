@@ -133,10 +133,16 @@ class PicklePlaySys(QWidget):
     def queue_player(self):
         # ----- Queue Functionalities -----
         name = self.name_input.text().strip()
-            
+        
         if not name:
             QMessageBox.warning(
                 self, "Error", "Please Type Your Name First."
+            )
+            return
+        
+        if name in self.manager_system.all_players:
+            QMessageBox.warning(
+                self, "Error", "This Name is Already Queued."
             )
             return
         
