@@ -1,4 +1,3 @@
-"""Title Icon Manager for the Title PicklePlay"""
 from PIL import Image
 import os
 
