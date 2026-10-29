@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QLabel, QPushButton, QBoxLayout, QHBoxLayout, QVBoxLayout, QCheckBox, 
                             QWidget, QStackedWidget, QLineEdit, QMessageBox, QListWidget, QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem)
 from PyQt6.QtCore import Qt, QDate, QPropertyAnimation, QEasingCurve, QPoint
-from PyQt6.QtGui import QColor, QPixmap, Qicon
+from PyQt6.QtGui import QColor, QPixmap, QIcon
 from dashboard import VenueManager
 from instructions import InstructionsPage
 from settings import SettingsPage
