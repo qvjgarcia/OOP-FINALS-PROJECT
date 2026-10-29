@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QLabel, QPushButton, QBoxLayout, QHBoxLayout, QVBoxLayout, QCheckBox, 
                             QWidget, QStackedWidget, QLineEdit, QMessageBox, QListWidget, QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem)
 from PyQt6.QtCore import Qt, QDate, QPropertyAnimation, QEasingCurve, QPoint
-from PyQt6.QtGui import QColor, QPixmap
+from PyQt6.QtGui import QColor, QPixmap, Qicon
 from dashboard import VenueManager
 from instructions import InstructionsPage
 from settings import SettingsPage
@@ -279,6 +279,7 @@ class PicklePlaySys(QWidget):
 app = QApplication(sys.argv)
 qss_file = Path(__file__).with_name("style.qss")
 app.setStyleSheet(qss_file.read_text())
+app.setWindowIcon(QIcon(str(Path(__file__).with_name("pickleball_icon.png"))))
 window = PicklePlaySys()
 window.show()
 app.exec()
