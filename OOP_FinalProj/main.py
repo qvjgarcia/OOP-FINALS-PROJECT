@@ -266,6 +266,7 @@ class PicklePlaySys(QWidget):
         # ----- Shows the Instructions -----
         self.instructions_window = InstructionsPage()
         self.instructions_window.setWindowTitle("Instructions")
+        self.instructions_window.setWindowIcon(QIcon(str(Path(__file__).with_name("instructions_icon.png"))))
         self.instructions_window.resize(700, 520)
         self.instructions_window.show()
         
@@ -273,6 +274,7 @@ class PicklePlaySys(QWidget):
         # ----- Shows the Settings -----
         self.instructions_window = SettingsPage()
         self.instructions_window.setWindowTitle("Settings")
+        self.instructions_window.setWindowIcon(QIcon(str(Path(__file__).with_name("settings_icon.png"))))
         self.instructions_window.resize(700, 520)
         self.instructions_window.show()
             
